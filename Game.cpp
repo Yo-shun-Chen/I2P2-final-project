@@ -305,6 +305,25 @@ void Game::game_draw()
                 (DC->window_height - gun_height) / 2, // 垂直置中
                 0
             );
+			 // 設定旋轉中心 (圖片的中點)
+            float center_x = gun_width / 2.0f;
+            float center_y = gun_height / 2.0f;
+
+            // 旋轉後繪製的位置 (將圖片移到螢幕最右側並垂直置中)
+            float dest_x = DC->window_width - center_y; // 圖片旋轉後的寬度改變
+            float dest_y = DC->window_height / 2.0f;
+
+            // 向左旋轉 90 度 (角度使用弧度)
+            float rotation_angle = -ALLEGRO_PI / 2;
+
+            // 繪製旋轉後的圖片
+            al_draw_rotated_bitmap(
+                gun_image,
+                center_x, center_y,   // 圖片的旋轉中心
+                dest_x, dest_y,       // 繪製的目標中心點
+                rotation_angle,       // 旋轉角度
+                0                     // 無附加標誌
+            );
             al_destroy_bitmap(gun_image); // 釋放記憶體
         }
 	}
