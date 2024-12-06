@@ -294,7 +294,7 @@ void Game::game_draw()
 			ui->draw();
 			OC->draw();
 		}
-		 // 新增槍的圖片繪製
+		 // 新增槍的圖片繪製 12/4
         ALLEGRO_BITMAP *gun_image = al_load_bitmap("./assets/image/gun.png");
         if (gun_image) {
             int gun_width = al_get_bitmap_width(gun_image);
@@ -316,7 +316,7 @@ void Game::game_draw()
             // 向左旋轉 90 度 (角度使用弧度)
             float rotation_angle = -ALLEGRO_PI / 2;
 
-            // 繪製旋轉後的圖片
+            // 繪製圖片
             al_draw_rotated_bitmap(
                 gun_image,
                 center_x, center_y,   // 圖片的旋轉中心
