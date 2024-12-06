@@ -64,13 +64,14 @@ void Hero::update()
         shape->update_center_x(shape->center_x() + speed);
         state = HeroState::RIGHT;
     }
+    //12/2，玩家超出右邊界則扣血
      bool is_out_of_screen = shape->center_x() + width / 2 >= DC->window_width ||  // 超出右邊界
                             shape->center_x() - width / 2 < 0;                   // 超出左邊界
 
     static double elapsed_time = 0.0; // 靜態變數累積時間
 
     if (is_out_of_screen) {
-        // 如果角色超出銀幕範圍，累積時間
+        // 12/2 如果角色超出銀幕範圍，累積時間
         elapsed_time += 1.0 / DC->FPS;
 
         if (elapsed_time >= HP_DEDUCTION_INTERVAL) {
