@@ -17,6 +17,8 @@
 #include <allegro5/allegro_acodec.h>
 #include <vector>
 #include <cstring>
+#include <allegro5/allegro_image.h>
+
 
 // fixed settings
 constexpr char game_icon_img_path[] = "./assets/image/game_icon.png";
@@ -162,6 +164,8 @@ void Game::game_init()
 	debug_log("Game state: change to START\n");
 	state = STATE::START;
 	al_start_timer(timer);
+	// 新增障礙物圖片變數
+	
 }
 
 /**
@@ -294,7 +298,7 @@ void Game::game_draw()
 			ui->draw();
 			OC->draw();
 		}
-		 // 新增槍的圖片繪製 12/4
+		 // 新增槍的圖片繪製
         ALLEGRO_BITMAP *gun_image = al_load_bitmap("./assets/image/gun.png");
         if (gun_image) {
             int gun_width = al_get_bitmap_width(gun_image);
@@ -316,7 +320,7 @@ void Game::game_draw()
             // 向左旋轉 90 度 (角度使用弧度)
             float rotation_angle = -ALLEGRO_PI / 2;
 
-            // 繪製圖片
+            // 繪製旋轉後的圖片
             al_draw_rotated_bitmap(
                 gun_image,
                 center_x, center_y,   // 圖片的旋轉中心
@@ -326,6 +330,47 @@ void Game::game_draw()
             );
             al_destroy_bitmap(gun_image); // 釋放記憶體
         }
+		ALLEGRO_BITMAP *obstacle_image = al_load_bitmap("./assets/image/obstacle.jpg");
+
+		// // 在 game_init 函式中載入障礙物圖片
+		// obstacle_image = al_load_bitmap("./assets/image/obstacle.jpg");
+		// if (!obstacle_image) {
+		// 	fprintf(stderr, "Failed to load obstacle image!\n");
+		// }
+		if (obstacle_image) {
+			int obstacle_width = al_get_bitmap_width(obstacle_image);
+			int obstacle_height = al_get_bitmap_height(obstacle_image);
+
+			// 設定障礙物的位置，例如在螢幕中央
+			int obstacle_x = (DC->window_width - obstacle_width) / 2;
+			int obstacle_y = (DC->window_height - obstacle_height) / 2-200;
+
+			//al_draw_bitmap(obstacle_image, obstacle_x, obstacle_y, 0);
+	}
+	if (obstacle_image) {
+        int obstacle_width = al_get_bitmap_width(obstacle_image);
+        int obstacle_height = al_get_bitmap_height(obstacle_image);
+
+        // 縮放比例 (例如縮小到 50%)
+        float scale_factor = 0.1; 
+        float scaled_width = obstacle_width * scale_factor;
+        float scaled_height = obstacle_height * scale_factor;
+
+        // 設定繪製位置 (例如畫面中央)
+        float dest_x = (DC->window_width - scaled_width) / 2;
+        float dest_y = (DC->window_height - scaled_height) / 2+100;
+
+        al_draw_scaled_bitmap(
+            obstacle_image,
+            0, 0,                      // 原始圖片區域 (全圖)
+            obstacle_width, obstacle_height, // 原始大小
+            dest_x, dest_y,            // 繪製位置
+            scaled_width, scaled_height, // 縮放後大小
+            0                          // 無附加標誌
+        );
+    }
+
+
 	}
 	switch (state)
 	{
@@ -350,6 +395,7 @@ void Game::game_draw()
 	{
 	}
 	}
+	
 	al_flip_display();
 }
 

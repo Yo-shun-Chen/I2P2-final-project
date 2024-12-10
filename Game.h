@@ -38,6 +38,8 @@ private:
 	ALLEGRO_TIMER *timer;
 	ALLEGRO_EVENT_QUEUE *event_queue;
 	UI *ui;
+private:
+    ALLEGRO_BITMAP *obstacle_image = nullptr; // 儲存障礙物圖片
 };
 
 #endif
