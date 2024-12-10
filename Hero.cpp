@@ -5,6 +5,8 @@
 #include "shapes/Rectangle.h"
 #include "Player.h"
 #include <stdio.h>
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro.h>
 namespace HeroSetting
 {
     static constexpr char gif_root_path[50] = "./assets/gif/Hero";
@@ -39,6 +41,11 @@ void Hero::init()
                               DC->window_height / 2,
                               DC->window_width / 2 + width,
                               DC->window_height / 2 + height});
+     // 載入金幣圖片
+    coin_image = al_load_bitmap("./assets/image/coin.png");
+    if (!coin_image) {
+        fprintf(stderr, "Failed to load coin image!\n");
+    }
 }
 
 void Hero::update()
@@ -95,5 +102,24 @@ void Hero::draw()
                    shape->center_x() - width / 2,
                    shape->center_y() - height / 2,
                    0);
+    //  GIFCenter *GIFC = GIFCenter::get_instance();
+    // ALGIF_ANIMATION *gif = GIFC->get(gifPath[state]);
+
+    // 繪製角色
+    // algif_draw_gif(gif,
+    //                shape->center_x() - width / 2,
+    //                shape->center_y() - height / 2,
+    //                0);
+
+    // 繪製金幣
+    if (coin_image) {
+        al_draw_bitmap(
+            coin_image,
+            shape->center_x() + coin_offset_x, // 金幣的 x 座標
+            shape->center_y() + coin_offset_y, // 金幣的 y 座標
+            0
+        );
+    }
+
 }
 
